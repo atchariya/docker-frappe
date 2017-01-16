@@ -1,0 +1,20 @@
+{
+ "db_host": "{{ .Env.DB_HOST }}",
+ "auto_update": false,
+ "background_workers": 1,
+ "db_host": "{{ .Env.DB_HOST }}",
+ "frappe_user": "frappe",
+ "gunicorn_workers": 2,
+ "dns_multitenant": true,
+ "rebase_on_pull": false,
+ "logging": "1",
+ "redis_cache": "redis://{{ .Env.REDIS_CACHE_URL }}",
+ "redis_queue": "redis://{{ .Env.REDIS_QUEUE_URL }}",
+ "redis_socketio": "redis://{{ .Env.REDIS_SOCKETIO_URL }}",
+ "restart_supervisor_on_update": true,
+ "serve_default_site": true,
+ "shallow_clone": true,
+ "socketio_port": 9000,
+ "update_bench_on_update": true,
+ "webserver_port": 8000
+}
