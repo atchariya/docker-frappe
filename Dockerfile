@@ -39,8 +39,14 @@ COPY ./config/ /tmp/config
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN sudo chmod +x /usr/local/bin/docker-entrypoint.sh
 
+COPY ./etc/supervisor.conf /home/$FRAPPE_USER/frappe-bench/config/supervisor.conf
+COPY ./etc/nginx.conf /home/$FRAPPE_USER/frappe-bench/config/nginx.conf
+RUN sudo ln -s /home/$FRAPPE_USER/frappe-bench/config/supervisor.conf /etc/supervisor/conf.d/frappe-bench.conf
+RUN sudo ln -s /home/$FRAPPE_USER/frappe-bench/config/nginx.conf /etc/nginx/conf.d/frappe-bench.conf
 
+COPY ./config/installer.py /home/$FRAPPE_USER/frappe-bench/apps/frappe/frappe/installer.py
 
+RUN sudo chown -Rf $FRAPPE_USER:$FRAPPE_USER /home/$FRAPPE_USER/frappe-bench
 
 ENV ADMIN_PASSWORD=frappe \
     DB_HOST=db \
@@ -58,6 +64,6 @@ ENV ADMIN_PASSWORD=frappe \
     USE_SSL=false \
     DEVELOPER_MODE=true
 
-
+RUN sudo apt-get install -y mariadb-client
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
